@@ -1,21 +1,24 @@
-import React, { useState } from 'react' 
+import React, { useState } from "react" 
+import { ApiDelivery } from "../../../data/sources/remote/api/ApiDelivery"; 
+import { RegisterAuthUseCase } from "../../../domain/useCases/auth/RegisterAuth"; 
  
 const RegisterViewModel = () => { 
     const [values, setValues] = useState({ 
         name: '', 
         lastname: '', 
-        phone: '', 
         email: '', 
+        phone: '', 
         password: '', 
-        confirmPassword: '', 
+        confirmPassword: '' 
     }); 
  
     const onChange = (property: string, value: any) => { 
         setValues({ ...values, [property]: value }); 
     } 
  
-    const register = () => { 
-        console.log(JSON.stringify(values)); 
+    const register =  async() => { 
+        const { result } = await RegisterAuthUseCase(values); 
+        console.log('result' + JSON.stringify(result)); 
     } 
  
     return { 

@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   Touchable,
   TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { RoundedButton } from "../../components/RoundedButton";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -16,6 +17,7 @@ import useViewModel from "./viewModel";
 import { CustomTextInput } from "../../components/CustomTextInput";
 import { RootStackParamList } from "../../../../App";
 import styles from "./Styles";
+
 
 export const RegisterScreen = () => {
   const {
@@ -29,8 +31,10 @@ export const RegisterScreen = () => {
     register,
   } = useViewModel();
 
+
   return (
     <View style={styles.container}>
+      
       <Image
         source={require("../../../../assets/chef.jpg")}
         style={styles.imageBackground}
@@ -42,8 +46,8 @@ export const RegisterScreen = () => {
         />
         <Text style={styles.logoText}>SELECCIONA UNA IMAGEN</Text>
       </View>
-
       <View style={styles.form}>
+        <ScrollView>
         <Text style={styles.formText}>REGISTRARSE</Text>
 
         <CustomTextInput
@@ -105,6 +109,7 @@ export const RegisterScreen = () => {
         <View style={{ marginTop: 30 }}>
           <RoundedButton text="CONFIRMAR" onPress={() => register()} />
         </View>
+        </ScrollView>
       </View>
     </View>
   );
