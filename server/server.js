@@ -1,31 +1,57 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const express = require('express'); 
+const passport = require('passport'); 
+ 
+const app = express(); 
+const http = require('http'); 
+const server = http.createServer(app); 
 const logger = require('morgan'); 
-const cors = require('cors');
-const users = require('./Routes/userRoutes');
-
-const port = process.env.PORT || 3000;                                                                                                                                                                                                           
-app.use(logger('dev'));
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+const cors = require('cors'); 
+ 
+/** 
+ * Importar rutas 
+ */ 
+const usersRoutes = require('./routes/userRoutes'); 
+ 
+const port = process.env.PORT || 3000; 
+ 
+app.use(logger('dev'));  // log requests to the console DEBUG 
+app.use(express.json()); // support json encoded bodies 
+app.use(express.urlencoded({  
+    extended: true  
+})); // support encoded bodies 
 app.use(cors()); 
-app.disable('x-powered-by');
-
-app.set('port', port);
-//llamado de rutas
-users (app);
-//direccion ip V4 de la maquina, consultar con ipconfig
-server.listen(3000, '192.168.1.13' || 'localhost', function() {
-    console.log('Aplicación de NodeJS ' + process.pid + 'inicio en el puerto ' + port);
-});
-app.get('/', (req, res) => {
-    res.send('Ruta raiz del Backend');
-});
-
-//error handler
-
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(err.status || 500).send(err.stack); });
+app.use(passport.initialize()); 
+app.use(passport.session()); 
+ 
+require('./config/passport')(passport); 
+ 
+app.disable('x-powered-by'); // disable the X-Powered-By header in responses 
+ 
+app.set('port', port); 
+ 
+/** 
+ * Llamar a las rutas 
+ */ 
+usersRoutes(app); 
+ 
+// Iniciar el servidor 
+server.listen(port, '192.168.0.4' || 'localhost', function() { 
+    console.log('App Node.js ' + process.pid + ' ejecutando en ' + 
+server.address().address + ':' + server.address().port); 
+}); 
+ 
+/** RUTAS ***********************************************/ 
+app.get('/', (req, res) => { 
+    res.send('Estas en la ruta raiz del backend.'); 
+}); 
+ 
+ 
+app.get('/test', (req, res) => { 
+res.send('Estas en la ruta TEST'); 
+}); 
+//Manejo de errores ****************************************** 
+app.use((err, req, res, next) => { 
+console.error(err); 
+res.status(err.status || 500).send(err.stack); 
+}); 
+//en package.json se cambio "passport": "^0.7.0", a "passport": "^0.4.1",
