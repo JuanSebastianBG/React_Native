@@ -37,7 +37,7 @@ useNavigation<StackNavigationProp<RootStackParamList>>();
     return ( 
         <View style={styles.container}> 
             <Image 
-                source={require('../../../../assets/chef.jpg')} 
+                source={require('../../../../assets/bg.png')} 
                 style={styles.imageBackground} 
             /> 
             <View style={styles.logoContainer}> 

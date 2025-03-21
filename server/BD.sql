@@ -1,3 +1,4 @@
+drop database if EXISTS nodejs_base1;
 CREATE DATABASE nodejs_base1 ;
 USE nodejs_base1;
  CREATE TABLE users(
@@ -9,5 +10,5 @@ USE nodejs_base1;
      image VARCHAR(255) NULL, 
      password VARCHAR(90) NOT NULL, 
      created_at TIMESTAMP(0) NOT NULL, 
-     updated_at TIMESTAMP(0) NOT NULL 
+     updated_at TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP
      );
