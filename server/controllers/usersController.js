@@ -59,7 +59,16 @@ module.exports = {
 
   register(req, res) {
     const user = req.body;
-    console.log("Datos recibidos:", user); // Depuración
+    console.log("Datos recibidos en el servidor:", user); // Depuración
+
+    if (!user || !user.password) {
+      console.log("Error: Datos incompletos o inválidos");
+      return res.status(400).json({
+        success: false,
+        message: "Datos incompletos o inválidos",
+      });
+    }
+
     User.create(user, (err, data) => {
       if (err) {
         console.log("Error en la base de datos:", err); // Depuración
@@ -69,9 +78,10 @@ module.exports = {
           error: err,
         });
       }
+      console.log("Usuario creado:", data); // Depuración
       return res.status(201).json({
         success: true,
-        message: "Usuario creado ",
+        message: "Usuario creado",
         data: data,
       });
     });

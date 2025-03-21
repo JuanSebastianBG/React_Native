@@ -18,8 +18,9 @@ const RegisterViewModel = () => {
 
   const register = async () => {
     if (isValidForm()) {
+      console.log("Datos del formulario:", values); // Depuración
       const response = await RegisterAuthUseCase(values);
-      console.log("Resultado:", JSON.stringify(response));
+      console.log("Respuesta del servidor:", response); // Depuración
       if (response.success) {
         console.log("Usuario registrado correctamente");
       } else {
@@ -27,7 +28,6 @@ const RegisterViewModel = () => {
       }
     }
   };
-
   const isValidForm = (): boolean => {
     if (values.name === "") {
       setErrorMessage("El nombre es requerido");

@@ -34,41 +34,52 @@ FROM users WHERE email = ?`;
 };
 
 User.create = async (user, result) => {
-  const hash = await bcrypt.hash(user.password, 10);
-  const sql = `INSERT INTO users ( 
-        email,  
-        name,  
-        lastname, 
-        phone, 
-        image,  
-        password, 
-        created_at, 
-        update_at 
+  if (!user || !user.password) {
+    console.log("Error: Datos de usuario incompletos");
+    return result(new Error("Datos de usuario incompletos"), null);
+  }
+
+  try {
+    const hash = await bcrypt.hash(user.password, 10); // Hashear la contraseña
+    const sql = `
+        INSERT INTO users (
+          email,  
+          name,  
+          lastname,
+          phone,
+          image,  
+          password,
+          created_at,
+          updated_at
         )  
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `;
 
-  db.query(
-    sql,
-    [
-      user.email,
-      user.name,
-      user.lastname,
-      user.phone,
-      user.image,
-      hash,
-      new Date(),
-      new Date(),
-    ],
-    (err, res) => {
-      if (err) {
-        console.log("Error al crear el usuario: ", err);
-        result(err, null);
-      } else {
-        console.log("Usuario creado: ", { id: res.insertId, ...user });
-        result(null, { id: res.insertId, ...user });
+    db.query(
+      sql,
+      [
+        user.email,
+        user.name,
+        user.lastname,
+        user.phone,
+        user.image,
+        hash,
+        new Date(),
+        new Date(),
+      ],
+      (err, res) => {
+        if (err) {
+          console.log("Error al crear el usuario: ", err);
+          result(err, null);
+        } else {
+          console.log("Usuario creado: ", { id: res.insertId, ...user });
+          result(null, { id: res.insertId, ...user });
+        }
       }
-    }
-  );
+    );
+  } catch (error) {
+    console.log("Error al hashear la contraseña: ", error);
+    result(error, null);
+  }
 };
-
 module.exports = User;

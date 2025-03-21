@@ -1,9 +1,10 @@
-import axios from 'axios'; 
+import axios from "axios";
 
-const ApiDelivery = axios.create({ 
-baseURL: 'http://192.168.1.14:3000/api', 
-headers: {   
-'Content-Type': 'application/json' 
-} 
-}); 
-export {ApiDelivery}; 
+const ApiDelivery = axios.create({
+  baseURL: "http://localhost:3000", // URL base del servidor
+  headers: {
+    "Content-Type": "application/json", // Asegúrate de enviar JSON
+  },
+});
+
+export default ApiDelivery;
