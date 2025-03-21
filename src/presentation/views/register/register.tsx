@@ -18,7 +18,6 @@ export const RegisterScreen = () => {
     register,
   } = useViewModel();
 
-  //Para saber si la variable ya tiene establecido un valor
   useEffect(() => {
     if (errorMessage !== "") ToastAndroid.show(errorMessage, ToastAndroid.LONG);
   }, [errorMessage]);
@@ -81,8 +80,8 @@ export const RegisterScreen = () => {
             image={require("../../../../assets/password.png")}
             placeholder="Contraseña"
             value={password}
-            keyboardType="default"
             secureTextEntry={true}
+            keyboardType="default"
             property="password"
             onChangeText={onChange}
           />
@@ -91,8 +90,8 @@ export const RegisterScreen = () => {
             image={require("../../../../assets/confirm_password.png")}
             placeholder="Confirmar contraseña"
             value={confirmPassword}
-            keyboardType="default"
             secureTextEntry={true}
+            keyboardType="default"
             property="confirmPassword"
             onChangeText={onChange}
           />

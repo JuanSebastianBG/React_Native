@@ -35,7 +35,7 @@ app.set('port', port);
 usersRoutes(app); 
  
 // Iniciar el servidor 
-server.listen(port, '192.168.0.4' || 'localhost', function() { 
+server.listen(port, 'localhost', function() { 
     console.log('App Node.js ' + process.pid + ' ejecutando en ' + 
 server.address().address + ':' + server.address().port); 
 }); 
