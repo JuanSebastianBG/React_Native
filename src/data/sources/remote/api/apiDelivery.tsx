@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const ApiDelivery = axios.create({
-  baseURL: "http://localhost:3000", // URL base del servidor
+  baseURL: "http://192.168.0.9:3000", // Sin barra al final
   headers: {
-    "Content-Type": "application/json", // Asegúrate de enviar JSON
+    "Content-Type": "application/json",
   },
 });
 

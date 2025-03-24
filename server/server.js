@@ -19,13 +19,12 @@ const port = process.env.PORT || 3000;
 app.use(logger("dev")); // Log requests to the console (DEBUG)
 app.use(express.json()); // Support JSON encoded bodies
 app.use(express.urlencoded({ extended: true })); // Support URL encoded bodies
-app.use(
-  cors({
-    origin: "*", // Allow all requests (in development)
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-  })
-);
+app.use(cors({
+  origin: '*', // Permite todas las conexiones (solo para desarrollo)
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+
+
 
 // Configura express-session
 app.use(
@@ -55,7 +54,7 @@ app.get("/test", (req, res) => {
 });
 
 // Rutas de usuarios
-usersRoutes(app);
+app.use('/api', usersRoutes);
 
 // Ruta adicional para /api/users
 app.get("/api/users", (req, res) => {
@@ -69,13 +68,6 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar el servidor
-server.listen(port, "0.0.0.0", function () {
-  console.log(
-    "App Node.js " +
-      process.pid +
-      " ejecutando en " +
-      server.address().address +
-      ":" +
-      server.address().port
-  );
+server.listen(3000, '0.0.0.0', () => { // Escucha en todas las interfaces
+  console.log(`Servidor en http://localhost:3000`);
 });

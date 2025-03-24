@@ -7,27 +7,25 @@ import { ResponseApiDelivery } from "../sources/remote/models/ResponseApiDeliver
 export class AuthRepositoryImpl implements AuthRepository {
   async register(user: User): Promise<ResponseApiDelivery> {
     try {
-      console.log("Enviando datos al servidor:", user); // Depuración
-      const response = await ApiDelivery.post<ResponseApiDelivery>(
-        "/users/create",
-        user
-      );
-      console.log("Respuesta del servidor:", response.data); // Depuración
-      return Promise.resolve(response.data);
+      console.log("URL completa:", `${ApiDelivery.defaults.baseURL}/users/create`);
+      const response = await ApiDelivery.post("api/users/create", user);
+      return response.data;
     } catch (error) {
-      let e = error as AxiosError;
-      console.log("Error en la solicitud:", e.response?.data); // Depuración
-      const apiError: ResponseApiDelivery = JSON.parse(
-        JSON.stringify(e.response?.data)
-      );
-      return Promise.resolve(apiError);
+      const e = error as AxiosError;
+      console.error("Detalles del error:", {
+        message: e.message,
+        code: e.code,
+        request: e.request,
+        response: e.response?.data
+      });
+      return { success: false, message: "Error de conexión" };
     }
   }
 
   async login(email: string, password: string): Promise<ResponseApiDelivery> {
     try {
       const response = await ApiDelivery.post<ResponseApiDelivery>(
-        "/users/login",
+        "api/users/login",
         {
           email: email,
           password: password,

@@ -1,13 +1,23 @@
 const mysql = require("mysql");
+
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "192.168.0.9",  // Solo la IP o dominio, sin puerto
+  port: 3306,              // Puerto de MySQL (por defecto es 3306)
   user: "root",
-  password: "",
+  password: "",            // Asegúrate de que coincida con tu contraseña de MySQL
   database: "nodejs_base1",
 });
+
 db.connect(function (err) {
-  if (err) throw err;
-  console.log("Base de datos conectada");
+  if (err) {
+    console.error("Detalles del error:", {
+      code: err.code,
+      errno: err.errno,
+      stack: err.stack
+    });
+    throw err;
+  }
+  console.log("¡Conectado a MySQL!");
 });
 
 module.exports = db;
